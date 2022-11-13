@@ -1,0 +1,6 @@
+clean_speech/
+# speech-emotion-recognition-ravdess-data/
+
+# misc
+.DS_Store
+.vscode
