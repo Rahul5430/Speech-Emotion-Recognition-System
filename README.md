@@ -135,7 +135,7 @@ _Below is an example of how you can install and set up your app._
         ```
 - Start the project
   ```sh
-  ipython main.py
+  jupyter notebook
   ```
 
 _For more examples, please refer to the [Documentation](https://example.com)_
