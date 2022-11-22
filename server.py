@@ -4,6 +4,7 @@ import soundfile
 import numpy as np
 import librosa
 import sys
+import os
 import warnings
 warnings.simplefilter("ignore")
 
@@ -55,5 +56,7 @@ def predict():
     return jsonify(output)
 
 
+port = int(os.environ.get('PORT', 5000))
+
 if __name__ == '__main__':
-    app.run()
+    app.run(port=port)
