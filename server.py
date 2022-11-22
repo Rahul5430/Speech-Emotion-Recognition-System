@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import pickle
 import soundfile
 import numpy as np
@@ -9,6 +10,7 @@ import warnings
 warnings.simplefilter("ignore")
 
 app = Flask(__name__)
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 model = pickle.load(open('Speech_Emotions_Recognition_Model.pkl', 'rb'))
 

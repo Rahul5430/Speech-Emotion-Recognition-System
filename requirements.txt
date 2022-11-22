@@ -23,6 +23,7 @@ entrypoints==0.4
 executing==1.2.0
 fastjsonschema==2.16.2
 Flask==2.2.2
+Flask-Cors==3.0.10
 fonttools==4.38.0
 gunicorn==20.1.0
 idna==3.4

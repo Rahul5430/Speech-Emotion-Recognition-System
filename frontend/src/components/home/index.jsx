@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import axios from 'axios';
 import DragDropFile from './DragDropFile';
+axios.defaults.baseURL = process.env.REACT_APP_FLASK_URL;
 
 const Home = () => {
 	const [audioFile, setAudioFile] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const [emotion, setEmotion] = useState('');
 	const [clicked, setClicked] = useState(false);
+	console.log(process.env.REACT_APP_FLASK_URL);
 
 	const predictFile = (e) => {
 		setLoading(true);
