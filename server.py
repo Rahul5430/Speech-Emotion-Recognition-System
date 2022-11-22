@@ -15,8 +15,8 @@ model = pickle.load(open('Speech_Emotions_Recognition_Model.pkl', 'rb'))
 
 # Feature Extraction of Audio Files Function
 # Extract features (mfcc, chroma, mel) from a sound file
-def extract_feature(file_name, mfcc, chroma, mel):
-    with soundfile.SoundFile(file_name) as sound_file:
+def extract_feature(f, mfcc, chroma, mel):
+    with soundfile.SoundFile(f) as sound_file:
         X = sound_file.read(dtype="float32")
         sample_rate = sound_file.samplerate
         if chroma:
@@ -48,15 +48,15 @@ def predict():
     f = request.files.get('audioFile', None)
     # print(data, file=sys.stdout)
     print(f, file=sys.stdout)
-    file = 'clean_speech/' + f.filename
     x = []
-    x.append(extract_feature(file, mfcc=True, chroma=True, mel=True))
+    x.append(extract_feature(f, mfcc=True, chroma=True, mel=True))
     prediction = model.predict(np.array(x))
     output = prediction[0]
     return jsonify(output)
 
 
 port = int(os.environ.get('PORT', 5000))
+debug = bool(os.environ.get('DEBUG', True))
 
 if __name__ == '__main__':
-    app.run(port=port)
+    app.run(port=port, debug=debug)
