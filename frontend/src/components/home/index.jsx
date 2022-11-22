@@ -8,7 +8,6 @@ const Home = () => {
 	const [loading, setLoading] = useState(false);
 	const [emotion, setEmotion] = useState('');
 	const [clicked, setClicked] = useState(false);
-	console.log(process.env.REACT_APP_FLASK_URL);
 
 	const predictFile = (e) => {
 		setLoading(true);
@@ -50,6 +49,9 @@ const Home = () => {
 				predictFile={predictFile}
 				setAudioFile={setAudioFile}
 			/>
+			{loading && clicked && (
+				<h2 className='mt-12'>Loading...</h2>
+			)}
 			{!loading && clicked && (
 				<h2 className='mt-12'>Predicted emotion is: {emotion}</h2>
 			)}

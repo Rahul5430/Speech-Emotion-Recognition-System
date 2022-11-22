@@ -50,6 +50,7 @@ const DragDropFile = ({ predictFile, setAudioFile }) => {
 				ref={inputRef}
 				type='file'
 				id='input-file-upload'
+				name='inputFile'
 				multiple={true}
 				onChange={handleChange}
                 required
