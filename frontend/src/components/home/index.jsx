@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import DragDropFile from './DragDropFile';
+import Emoji from '../../layout/Emoji';
 axios.defaults.baseURL = process.env.REACT_APP_FLASK_URL;
 
 const Home = () => {
@@ -15,11 +16,9 @@ const Home = () => {
 		e.preventDefault();
 		const data = new FormData();
 		data.append('audioFile', audioFile);
-		console.log(audioFile);
 		axios
 			.post('/api', data)
 			.then((res) => {
-				console.log(res.data);
 				setEmotion(res.data);
 			})
 			.catch((err) => {
@@ -30,30 +29,34 @@ const Home = () => {
 			});
 	};
 
+	const emojis = {
+		calm: '🙂',
+		disgust: '🤢',
+		fearful: '😨',
+		happy: '😁',
+	};
+
 	return (
-		<div className='flex flex-col justify-center items-center text-center h-full'>
-			{/* <form
-				className='text-center'
-				onSubmit={predictFile}
-				encType='multipart/form-data'
-			>
-				<input
-					type='file'
-					name='audioFile'
-					onChange={(e) => setAudioFile(e.target.files[0])}
-					required
-				/>
-				<button type='submit'>Predict</button>
-			</form> */}
+		<div className=''>
 			<DragDropFile
 				predictFile={predictFile}
+				audioFile={audioFile}
 				setAudioFile={setAudioFile}
 			/>
 			{loading && clicked && (
-				<h2 className='mt-12'>Loading...</h2>
+				<h2 className='text-center font-bold text-[1.25em]'>
+					Loading...
+				</h2>
 			)}
 			{!loading && clicked && (
-				<h2 className='mt-12'>Predicted emotion is: {emotion}</h2>
+				<h2 className='font-bold text-[1.25em] flex justify-center items-center'>
+					Prediction:{' '}
+					<p className='mr-[1px] ml-[5px] capitalize'> {emotion}</p>{' '}
+					<Emoji
+						label={emotion}
+						symbol={emojis[emotion.toLowerCase()]}
+					/>
+				</h2>
 			)}
 		</div>
 	);

@@ -1,51 +1,115 @@
-#form-file-upload {
-	height: 16rem;
-	width: 28rem;
-	max-width: 100%;
-	text-align: center;
+.drop-file-input {
 	position: relative;
-}
+	width: 400px;
+	height: 200px;
+	border: 2px dashed #4267b2;
+	border-radius: 20px;
+	margin: auto;
 
-#input-file-upload {
-	display: none;
-}
-
-#label-file-upload {
-	height: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	border-width: 2px;
-	border-radius: 1rem;
-	border-style: dashed;
-	border-color: #cbd5e1;
-	background-color: #f8fafc;
+
+	background-color: #f5f8ff;
 }
 
-.upload-button {
-	cursor: pointer;
-	padding: 0.25rem;
-	font-size: 1rem;
-	border: none;
-	font-family: 'Oswald', sans-serif;
-	background-color: transparent;
-}
-
-.upload-button:hover {
-	text-decoration-line: underline;
-}
-
-#label-file-upload.drag-active {
-	background-color: #ffffff;
-}
-
-#drag-file-element {
+.drop-file-input input {
+	opacity: 0;
 	position: absolute;
+	top: 0;
+	left: 0;
 	width: 100%;
 	height: 100%;
-	border-radius: 1rem;
-	top: 0px;
-	right: 0px;
-	bottom: 0px;
-	left: 0px;
+	cursor: pointer;
+}
+
+.drop-file-input:hover,
+.drop-file-input.dragover {
+	opacity: 0.6;
+}
+
+.drop-file-input__label {
+	text-align: center;
+	color: #ccc;
+	font-weight: 600;
+	padding: 10px;
+}
+
+.drop-file-input__label img {
+	width: 100px;
+	margin: auto;
+}
+
+.drop-file-preview {
+	margin-top: 30px;
+}
+
+.drop-file-preview p {
+	font-weight: 500;
+}
+
+.drop-file-preview__title {
+	margin-bottom: 20px;
+}
+
+.drop-file-preview__item {
+	position: relative;
+	display: flex;
+	align-items: center;
+	margin-bottom: 10px;
+	background-color: #f5f8ff;
+	padding: 15px;
+	border-radius: 20px;
+}
+
+.drop-file-preview__item img {
+	width: 50px;
+	height: 50px;
+	margin-right: 20px;
+}
+
+.drop-file-preview__item__info {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.drop-file-preview__item__del {
+	background-color: #fff;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	right: 10px;
+	top: 50%;
+	transform: translateY(-50%);
+	box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+	cursor: pointer;
+	opacity: 0;
+	transition: opacity 0.3s ease;
+}
+
+.drop-file-preview__item:hover .drop-file-preview__item__del {
+	opacity: 1;
+}
+
+@media screen and (max-width: 492px) {
+	.drop-file-input {
+		width: 330px;
+	}
+}
+
+@media screen and (max-width: 420px) {
+	.drop-file-input {
+		width: 284px;
+	}
+}
+
+@media screen and (max-width: 360px) {
+	.drop-file-input {
+		width: 270px;
+	}
 }

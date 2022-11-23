@@ -1,85 +1,82 @@
-import { useState, useRef } from 'react';
+import React, { useRef } from 'react';
+import uploadImg from '../../assets/cloud-upload-regular-240.png';
+import musicImg from '../../assets/music-file.png';
 import './DragDropFile.css';
 
-const DragDropFile = ({ predictFile, setAudioFile }) => {
-	const [dragActive, setDragActive] = useState(false);
-	const inputRef = useRef(null);
+const DragDropFile = ({ predictFile, audioFile, setAudioFile }) => {
+	const wrapperRef = useRef(null);
 
-	const handleDrag = (e) => {
+	const onDragEnter = () => wrapperRef.current.classList.add('dragover');
+
+	const onDragLeave = () => wrapperRef.current.classList.remove('dragover');
+
+	const onDrop = () => wrapperRef.current.classList.remove('dragover');
+
+	const onFileDrop = (e) => {
 		e.preventDefault();
-		e.stopPropagation();
-		if (e.type === 'dragenter' || e.type === 'dragover') {
-			setDragActive(true);
-		} else if (e.type === 'dragleave') {
-			setDragActive(false);
+		const newFile = e.target.files[0];
+		if (newFile) {
+			setAudioFile(newFile);
 		}
 	};
 
-	const handleDrop = (e) => {
-		e.preventDefault();
-		e.stopPropagation();
-		setDragActive(false);
-		if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-			// at least one file has been dropped so do something
-			// handleFiles(e.dataTransfer.files);
-			console.log(e.dataTransfer.files[0]);
-		}
-	};
-
-	const handleChange = (e) => {
-		e.preventDefault();
-		if (e.target.files && e.target.files[0]) {
-			setAudioFile(e.target.files[0]);
-		}
-	};
-
-	const onButtonClick = () => {
-		inputRef.current.click();
+	const fileRemove = (file) => {
+		setAudioFile(null);
 	};
 
 	return (
-		<form
-			id='form-file-upload'
-			onDragEnter={handleDrag}
-			// onSubmit={(e) => e.preventDefault()}
-			className='text-black'
-			encType='multipart/form-data'
-            onSubmit={predictFile}
-		>
-			<input
-				ref={inputRef}
-				type='file'
-				id='input-file-upload'
-				name='inputFile'
-				multiple={true}
-				onChange={handleChange}
-                required
-			/>
-			<label
-				id='label-file-upload'
-				htmlFor='input-file-upload'
-				className={dragActive ? 'drag-active' : ''}
+		<React.Fragment>
+			<form
+				id='form-file-upload'
+				encType='multipart/form-data'
+				onSubmit={predictFile}
+				ref={wrapperRef}
+				className='drop-file-input'
+				onDragEnter={onDragEnter}
+				onDragLeave={onDragLeave}
+				onDrop={onDrop}
 			>
-				<div>
-					<p>Drag and drop your file here or</p>
-					<button className='upload-button' onClick={onButtonClick}>
-						Upload a file
+				<div className='drop-file-input__label'>
+					<img src={uploadImg} alt='Upload' />
+					<p>Drag & Drop your audio files here</p>
+				</div>
+				<input
+					type='file'
+					name='inputFile'
+					id='inputFile'
+					onChange={onFileDrop}
+				/>
+			</form>
+			{audioFile && (
+				<div className='drop-file-preview'>
+					<p className='drop-file-preview__title'>Ready to predict</p>
+					<div className='drop-file-preview__item'>
+						<img src={musicImg} alt='Audio File' />
+						<div className='drop-file-preview__item__info'>
+							<p>{audioFile.name}</p>
+							<p>{audioFile.size}B</p>
+						</div>
+						<span
+							className='drop-file-preview__item__del'
+							onClick={() => fileRemove(audioFile)}
+						>
+							x
+						</span>
+					</div>
+				</div>
+			)}
+			{audioFile && (
+				<div className='text-center my-[20px]'>
+					<button
+						type='submit'
+						form='form-file-upload'
+						className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
+					>
+						Predict
 					</button>
 				</div>
-			</label>
-			{dragActive && (
-				<div
-					id='drag-file-element'
-					onDragEnter={handleDrag}
-					onDragLeave={handleDrag}
-					onDragOver={handleDrag}
-					onDrop={handleDrop}
-				></div>
 			)}
-			<button type='submit' className='text-white'>
-				Predict
-			</button>
-		</form>
+		</React.Fragment>
 	);
 };
 
