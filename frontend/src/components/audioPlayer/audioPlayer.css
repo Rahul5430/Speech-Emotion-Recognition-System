@@ -1,0 +1,38 @@
+.audio-player {
+	max-width: 350px;
+	border-radius: 20px;
+	padding: 24px;
+	box-shadow: 0 28px 28px rgba(0, 0, 0, 0.2);
+	margin: auto;
+	color: #fff;
+}
+
+.track-info {
+	text-align: center;
+	z-index: 1;
+	position: relative;
+}
+
+.audio-controls {
+	display: flex;
+	justify-content: space-between;
+	width: 75%;
+	margin: 0 auto 15px;
+}
+
+.audio-controls .play svg,
+.audio-controls .pause svg {
+	height: 40px;
+	width: 40px;
+}
+
+input[type=range] {
+	height: 5px;
+	-webkit-appearance: none;
+	width: 100%;
+	margin-bottom: 10px;
+	border-radius: 8px;
+	background: #3b7677;
+	transition: background 0.2s ease;
+	cursor: pointer;
+}

@@ -1,10 +1,11 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import AudioPlayer from '../audioPlayer';
 import uploadImg from '../../assets/cloud-upload-regular-240.png';
-import musicImg from '../../assets/music-file.png';
 import './DragDropFile.css';
 
 const DragDropFile = ({ predictFile, audioFile, setAudioFile }) => {
 	const wrapperRef = useRef(null);
+	const [fileDataURL, setFileDataURL] = useState(null);
 
 	const onDragEnter = () => wrapperRef.current.classList.add('dragover');
 
@@ -22,7 +23,33 @@ const DragDropFile = ({ predictFile, audioFile, setAudioFile }) => {
 
 	const fileRemove = (file) => {
 		setAudioFile(null);
+		setFileDataURL(null);
 	};
+
+	useEffect(() => {
+		// let fileReader,
+		// 	isCancel = false;
+		// if (audioFile) {
+		// 	fileReader = new FileReader();
+		// 	fileReader.onload = (e) => {
+		// 		const { result } = e.target;
+		// 		if (result && !isCancel) {
+		// 			setFileDataURL(result);
+		// 		}
+		// 	};
+		// 	fileReader.readAsDataURL(audioFile);
+		// 	console.log(URL.createObjectURL(audioFile));
+		// }
+		// return () => {
+		// 	isCancel = true;
+		// 	if (fileReader && fileReader.readyState === 1) {
+		// 		fileReader.abort();
+		// 	}
+		// };
+		if (audioFile) {
+			setFileDataURL(URL.createObjectURL(audioFile));
+		}
+	}, [audioFile]);
 
 	return (
 		<React.Fragment>
@@ -47,24 +74,19 @@ const DragDropFile = ({ predictFile, audioFile, setAudioFile }) => {
 					onChange={onFileDrop}
 				/>
 			</form>
-			{audioFile && (
+			{audioFile && fileDataURL && (
 				<div className='drop-file-preview'>
 					<p className='drop-file-preview__title'>Ready to predict</p>
-					<div className='drop-file-preview__item'>
-						<img src={musicImg} alt='Audio File' />
-						<div className='drop-file-preview__item__info'>
-							<p>{audioFile.name}</p>
-							<p>{audioFile.size}B</p>
-						</div>
-						<span
-							className='drop-file-preview__item__del'
-							onClick={() => fileRemove(audioFile)}
-						>
-							x
-						</span>
-					</div>
+					<AudioPlayer
+						audioSrc={fileDataURL}
+						audioFile={audioFile}
+						fileRemove={fileRemove}
+					/>
 				</div>
 			)}
+			{/* {audioFile && fileDataURL && (
+				<audio src={URL.createObjectURL(audioFile)} controls />
+			)} */}
 			{audioFile && (
 				<div className='text-center my-[20px]'>
 					<button
